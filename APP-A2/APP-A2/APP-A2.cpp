@@ -15,6 +15,7 @@ Good luck!
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 int main()
 {
@@ -24,6 +25,7 @@ int main()
 
 	std::cout << "~~~ Welcome to LincBank! ~~~\n"
 				 "Enter \"options\" to see all available commands\n";
+
 
 	while (userCommand != "exit")
 	{
@@ -49,7 +51,8 @@ int main()
 		if (command.compare("options") == 0)
 		{
 			// display the various commands to the user
-			std::cout << "open type initial_deposit: open a current (1), savings (2) or ISA (3) accountn\n"
+			std::cout << 
+				"open type initial_deposit: open a current (1), savings (2) or ISA (3) accountn\n"
 				"view[index]: view balance and recent transactions\n"
 				"withdraw sum : withdraw funds from most recently viewed account\n"
 				"deposit sum : deposit funds into most recently viewed account\n"
@@ -84,6 +87,9 @@ int main()
 		else if (command.compare("project") == 0)
 		{
 			// compute compound interest t years into the future
+
+			//interest equation =
+			// output = input(1 + (rate/number of times interest is applied per unit time))^(number of times interest is applied per unit time*time)
 		}
 		//else if (command.compare("search"))
 		//{
@@ -96,6 +102,37 @@ int main()
 	std::cout << "Press any key to quit...";
 	std::getchar();
 }
+
+
+// CLASS STRUCTURES
+// Account - abstract, implements basic account func
+class Account { // Abstract
+	protected:
+		float balance;
+	public:
+
+};
+// Current Account - no interest, £500 overdraft
+class Current : public Account {
+
+};
+// Savings Account - is interest, rates dependant on savings or ISA
+class Savings : public Account {
+	public:
+};
+
+class ISA : public Account {
+	public:
+		int years;
+		void projectedInterest() {
+			float interest = balance * pow((1 + (0.0115 / 12)), 12 * years);
+		}
+};
+// InterestEarning Interface - implemented by savings account to project interests
+// Transaction - stores transactions details (value, description, timestamp)
+// History - data structure, stores list of transactions
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
