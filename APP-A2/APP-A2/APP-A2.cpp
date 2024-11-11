@@ -22,12 +22,13 @@ int main()
 	std::string userCommand;
 	// you may also want to store a collection of opened accounts here
 
-	std::cout << "~~~ Welcome to LincBank! ~~~" << std::endl;
+	std::cout << "~~~ Welcome to LincBank! ~~~\n"
+				 "Enter \"options\" to see all available commands\n";
 
 	while (userCommand != "exit")
 	{
 		parameters.clear(); // clear ready for next command
-		std::cout << std::endl << ">>> ";
+		std::cout << std::endl << ">>>";
 
 		std::getline(std::cin, userCommand);
 		char* cstr = new char[userCommand.length() + 1];
@@ -48,6 +49,14 @@ int main()
 		if (command.compare("options") == 0)
 		{
 			// display the various commands to the user
+			std::cout << "open type initial_deposit: open a current (1), savings (2) or ISA (3) accountn\n"
+				"view[index]: view balance and recent transactions\n"
+				"withdraw sum : withdraw funds from most recently viewed account\n"
+				"deposit sum : deposit funds into most recently viewed account\n"
+				"transfer source destination sum : transfer funds between accounts\n"
+				"project years : project balance forward in time\n"
+				"exit : close this application\n"
+				"options : view these options again\n";
 		}
 		else if (command.compare("open") == 0)
 		{
