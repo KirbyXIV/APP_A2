@@ -47,12 +47,13 @@ int main()
 
 		// Define all commands as per the brief
 		std::string command = parameters[0];
+		std::string option = parameters[1];
 
 		if (command.compare("options") == 0)
 		{
 			// display the various commands to the user
 			std::cout << 
-				"open type initial_deposit: open a current (1), savings (2) or ISA (3) accountn\n"
+				"open type initial_deposit: open a current (1), savings (2) or ISA (3) account\n"
 				"view[index]: view balance and recent transactions\n"
 				"withdraw sum : withdraw funds from most recently viewed account\n"
 				"deposit sum : deposit funds into most recently viewed account\n"
@@ -65,6 +66,15 @@ int main()
 		{
 			// allow a user to open an account
 			// e.g., Account* a = new Savings(...);
+			if (option.compare("1") == 0) {
+				std::cout << "Current";
+			}
+			else if (option.compare("2") == 0) {
+				std::cout << "Savings";
+			}
+			else if (option.compare("3") == 0) {
+				std::cout << "ISA";
+			}
 		}
 		else if (command.compare("view") == 0)
 		{
@@ -88,7 +98,7 @@ int main()
 		{
 			// compute compound interest t years into the future
 
-			//interest equation =
+			// interest equation =
 			// output = input(1 + (rate/number of times interest is applied per unit time))^(number of times interest is applied per unit time*time)
 		}
 		//else if (command.compare("search"))
@@ -127,6 +137,7 @@ class ISA : public Account {
 		void projectedInterest() {
 			float interest = balance * pow((1 + (0.0115 / 12)), 12 * years);
 		}
+
 };
 // InterestEarning Interface - implemented by savings account to project interests
 // Transaction - stores transactions details (value, description, timestamp)
