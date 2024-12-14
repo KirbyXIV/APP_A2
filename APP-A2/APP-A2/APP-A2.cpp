@@ -47,7 +47,15 @@ int main()
 
 		// Define all commands as per the brief
 		std::string command = parameters[0];
-		std::string option = parameters[1];
+		std::string option = "";
+		std::string balance = "";
+		if (parameters.size() >= 2) {
+			option = parameters[1];
+		}
+		if (parameters.size() >= 3) {
+			balance = parameters[2];
+		}
+		
 
 		if (command.compare("options") == 0)
 		{
@@ -67,7 +75,9 @@ int main()
 			// allow a user to open an account
 			// e.g., Account* a = new Savings(...);
 			if (option.compare("1") == 0) {
-				std::cout << "Current";
+				balance = parameters[2];
+				std::cout << "Current" << std::endl;
+				std::cout << "Balance: " << balance;
 			}
 			else if (option.compare("2") == 0) {
 				std::cout << "Savings";
