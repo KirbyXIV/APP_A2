@@ -74,6 +74,8 @@ int main()
 		{
 			// allow a user to open an account
 			// e.g., Account* a = new Savings(...);
+			
+
 			if (option.compare("1") == 0) {
 				balance = parameters[2];
 				std::cout << "Current" << std::endl;
@@ -124,31 +126,6 @@ int main()
 }
 
 
-// CLASS STRUCTURES
-// Account - abstract, implements basic account func
-class Account { // Abstract
-	protected:
-		float balance;
-	public:
-
-};
-// Current Account - no interest, £500 overdraft
-class Current : public Account {
-
-};
-// Savings Account - is interest, rates dependant on savings or ISA
-class Savings : public Account {
-	public:
-};
-
-class ISA : public Account {
-	public:
-		int years;
-		void projectedInterest() {
-			float interest = balance * pow((1 + (0.0115 / 12)), 12 * years);
-		}
-
-};
 // InterestEarning Interface - implemented by savings account to project interests
 // Transaction - stores transactions details (value, description, timestamp)
 // History - data structure, stores list of transactions
