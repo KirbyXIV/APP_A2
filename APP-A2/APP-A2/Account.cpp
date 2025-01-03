@@ -1,6 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Account.h"
 #include <iostream>
-
+#include <ctime>
 
 Account::Account(float openingBalance)
 {
@@ -20,4 +22,22 @@ void Account::toString()
 void Account::withdraw(float amount)
 {
 	balance -= amount;
+}
+
+void Account::newTransaction(std::string type, float amount)
+{
+	time_t now = time(0);
+	char* dt = ctime(&now);
+	history.emplace_back(type, amount, std::string(dt));
+
+}
+
+std::vector<Transaction> Account::searchForTransaction(float value) const {
+	std::vector<Transaction> result;
+	for (const auto& transaction : history) {
+		if (transaction.getValue() == value) {
+			result.push_back(transaction);
+		}
+	}
+	return result;
 }
