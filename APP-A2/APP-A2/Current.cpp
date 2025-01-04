@@ -14,7 +14,7 @@ Current::Current(float openingBalance) : Account(openingBalance)
 	}
 }
 
-void Current::deposit(float amount)
+void Current::deposit(std::string message, float amount)
 {
 	if (amount < 0)
 	{
@@ -23,7 +23,7 @@ void Current::deposit(float amount)
 	else
 	{
 		balance += amount;
-		newTransaction("Deposit (Current)", amount);
+		newTransaction(message + " (Current)", amount);
 	}
 }
 
@@ -32,7 +32,7 @@ void Current::toString()
 	std::cout << "Current Account Balance: " << balance << std::endl;
 }
 
-void Current::withdraw(float amount)
+void Current::withdraw(std::string message, float amount)
 {
 	if (amount < 0)
 	{
@@ -45,7 +45,7 @@ void Current::withdraw(float amount)
 	else
 	{
 		balance -= amount;
-		newTransaction("Withdrawal (Current)", amount);
+		newTransaction(message + " (Current)", -amount);
 	}
 }
 

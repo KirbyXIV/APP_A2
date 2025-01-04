@@ -22,6 +22,11 @@ Good luck!
 #include "Savings.h"
 
 
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 Account* openAccount(int type, float initial_deposit) {
 	if (type == 1) {
 		return new Current(initial_deposit);
@@ -62,6 +67,8 @@ void tryComputeInterest(Account* Account, int years) {
 
 int main()
 {
+	SetConsoleOutputCP(1252);
+	SetConsoleCP(1252);
 	std::vector <std::string> parameters;
 	std::string userCommand;
 	// you may also want to store a collection of opened accounts here
@@ -181,9 +188,11 @@ int main()
 			else {
 				accountList[std::stoi(parameters[1]) - 1]->toString();
 				mostRecent = accountList[std::stoi(parameters[1]) - 1];
+
+				std::vector<Transaction> history = mostRecent->history;
 				std::cout << "Transaction History: " << std::endl;
-				for (const auto& transaction : mostRecent->history) {
-					std::cout << transaction.toString() << std::endl;
+				for (auto& transaction : history) {
+					transaction.toString();
 				}
 			}
 
@@ -197,13 +206,13 @@ int main()
 					std::cout << "No account has been viewed yet" << std::endl;
 				}
 				else {
-					mostRecent->withdraw(std::stof(parameters[1]));
+					mostRecent->withdraw("Withdraw", std::stof(parameters[1]));
 					mostRecent->toString();
 				}
 				
 			}
 			else if (parameters.size() == 3) {
-				accountList[std::stoi(parameters[1]) - 1]->withdraw(std::stof(parameters[2]));
+				accountList[std::stoi(parameters[1]) - 1]->withdraw("Withdraw", std::stof(parameters[2]));
 				accountList[std::stoi(parameters[1]) - 1]->toString();
 			}
 
@@ -217,12 +226,12 @@ int main()
 					std::cout << "No account has been viewed yet" << std::endl;
 				}
 				else if (accountList.size() == 1){
-					mostRecent->deposit(std::stof(parameters[1]));
+					mostRecent->deposit("Deposit", std::stof(parameters[1]));
 					mostRecent->toString();
 				}
 			}
 			else if (parameters.size() == 3) {
-				accountList[std::stoi(parameters[1]) - 1]->deposit(std::stof(parameters[2]));
+				accountList[std::stoi(parameters[1]) - 1]->deposit("Deposit" , std::stof(parameters[2]));
 				accountList[std::stoi(parameters[1]) - 1]->toString();
 			}
 		}
@@ -236,10 +245,8 @@ int main()
 				const float amount = std::stof(parameters[3]);
 
 				if (sourceIndex >= 0 && sourceIndex <= accountList.size() && destinationIndex >= 0 && destinationIndex <= accountList.size()) {
-					accountList[sourceIndex]->withdraw(amount);
-					accountList[sourceIndex]->newTransaction("Transfer out", amount);
-					accountList[destinationIndex]->deposit(amount);
-					accountList[destinationIndex]->newTransaction("Transfer in", amount);
+					accountList[sourceIndex]->withdraw("Transfer Out", amount);
+					accountList[destinationIndex]->deposit("Transfer in", amount);
 					accountList[sourceIndex]->toString();
 					accountList[destinationIndex]->toString();
 				}
@@ -269,10 +276,22 @@ int main()
 				tryComputeInterest(accountList[std::stoi(parameters[1]) - 1], std::stoi(parameters[2]));
 			}
 		}
-		/*else if (command.compare("search"))
+		else if (command.compare("search") == 0)
 		{
+			std::cout << "Searching for transaction" << std::endl;
+			if (parameters.size() == 2) {
+				std::vector<Transaction> result = mostRecent->searchForTransaction(std::stof(parameters[1]));
+				std::cout << "Transactions found: " << std::endl;
+				if (result.size() == 0) {
+					std::cout << "No transactions found" << std::endl;
+				}
+				else {
+					for (auto& transaction : result) {
+						transaction.toString();
+					}
+				}
+			}
 		}
-		*/
 
 	}
 

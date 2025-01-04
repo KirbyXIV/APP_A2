@@ -10,9 +10,9 @@ class Account
 		explicit Account(float openingBalance);
 		virtual ~Account() = default;
 
-		virtual void deposit(float amount);
+		virtual void deposit(std::string message, float amount);
 		virtual void toString();
-		virtual void withdraw(float amount);
+		virtual void withdraw(std::string message, float amount);
 
 		virtual std::string accountType() = 0;
 

@@ -6,9 +6,9 @@ class Current : public Account {
 	public:
 		explicit Current(float openingBalance);
 
-		void deposit(float amount) override;
+		void deposit(std::string message, float amount) override;
 		void toString() override;
-		void withdraw(float amount) override;
+		void withdraw(std::string message, float amount) override;
 
 		std::string accountType() override;
 

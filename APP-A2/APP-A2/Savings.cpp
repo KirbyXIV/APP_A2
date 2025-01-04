@@ -20,17 +20,17 @@ Savings::Savings(float openingBalance, bool isIsa) : Account(openingBalance) {
 	}
 }
 
-void Savings::deposit(float amount) {
+void Savings::deposit(std::string message, float amount) {
 	if (amount < 0) {
 		std::cout << "Cannot deposit a negative amount" << std::endl;
 	}
 	else {
 		balance += amount;
 		if (isa) {
-			newTransaction("Deposit (ISA)", amount);
+			newTransaction(message + " (ISA)", amount);
 		}
 		else {
-			newTransaction("Deposit (Savings)", amount);
+			newTransaction(message + " (Savings)", amount);
 		}
 	}
 }
@@ -44,7 +44,7 @@ void Savings::toString() {
 	}
 }
 
-void Savings::withdraw(float amount) {
+void Savings::withdraw(std::string message, float amount) {
 	if (amount < 0) {
 		std::cout << "Cannot withdraw a negative amount" << std::endl;
 	}
@@ -54,10 +54,10 @@ void Savings::withdraw(float amount) {
 	else {
 		balance -= amount;
 		if (isa) {
-			newTransaction("Withdrawal (ISA)", amount);
+			newTransaction(message + " (ISA)", -amount);
 		}
 		else {
-			newTransaction("Withdrawal (Savings)", amount);
+			newTransaction(message + " (Savings)", -amount);
 		}
 	}
 }

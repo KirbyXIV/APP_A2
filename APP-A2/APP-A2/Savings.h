@@ -7,9 +7,9 @@ class Savings : public Account, public InterestEarnings {
 	public:
 		explicit Savings(float openingBalance, bool isa);
 
-		void deposit(float amount) override;
+		void deposit(std::string message, float amount) override;
 		void toString() override;
-		void withdraw(float amount) override;
+		void withdraw(std::string message, float amount) override;
 
 		std::string accountType() override;
 

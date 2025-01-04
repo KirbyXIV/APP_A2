@@ -9,7 +9,7 @@ Account::Account(float openingBalance)
 	balance = openingBalance;
 }
 
-void Account::deposit(float amount)
+void Account::deposit(std::string message, float amount)
 {
 	balance += amount;
 }
@@ -19,7 +19,7 @@ void Account::toString()
 	std::cout << "Account Balance: " << balance << std::endl;
 }	
 
-void Account::withdraw(float amount)
+void Account::withdraw(std::string message, float amount)
 {
 	balance -= amount;
 }

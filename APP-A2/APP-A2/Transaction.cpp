@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Transaction::Transaction(std::string description, float value, std::string timestamp)
+Transaction::Transaction(std::string description, float value, std::string timestamp) : description(description), value(value), timestamp(timestamp)
 {
 	
 }
@@ -24,8 +24,5 @@ std::string Transaction::getTimestamp() const
 
 void Transaction::toString()
 {
-
-	std::cout << "Transaction Description: " << description << std::endl;
-	std::cout << "Transaction Value: " << value << std::endl;
-	std::cout << "Transaction Timestamp: " << timestamp << std::endl;
+	std::cout << "\"" << description << "\" | £" <<  value << " | Time: " << timestamp << std::endl;
 }
