@@ -28,23 +28,24 @@ Good luck!
 #endif
 
 Account* openAccount(int type, float initial_deposit) {
-	if (type == 1) {
+	// opens a new account
+	if (type == 1) { // current
 		return new Current(initial_deposit);
 	}
-	else if (type == 2) {
+	else if (type == 2) { // savings
 		return new Savings(initial_deposit, false);
 	}
-	else if (type == 3) {
+	else if (type == 3) { // isa
 		return new Savings(initial_deposit, true);
 	}
-	else {
+	else { // returns invalid account type
 		std::cout << "Invalid account type" << std::endl;
 	}
 	return nullptr;
 }
 
 bool checkForAccount(const std::vector<Account*>& accountList, const std::string& type) {
-	// go through every account in the list and check if the account type is already open
+	// gets the account type to see if certain accounts already exist
 	for (const auto account : accountList) {
 		if (account->accountType() == type) {
 			return true;
@@ -54,13 +55,15 @@ bool checkForAccount(const std::vector<Account*>& accountList, const std::string
 }
 
 void tryComputeInterest(Account* Account, int years) {
+	// checks if the account is a savings/isa account
 	if (auto savings = dynamic_cast<Savings*>(Account)) {
+		// if it is, compute the interest
 		float postInterestBalance = savings->computeInterest(years);
-		// get the account type
 		std::string accountType = savings->accountType();
 		std::cout << "Projected balance (" << accountType<<  ") in " << years << " years: " << postInterestBalance << std::endl;
 	}
 	else {
+		// if it isnt, let them know they need it to be a savings account
 		std::cout << "Account is not a savings account" << std::endl;
 	}
 }
@@ -128,44 +131,46 @@ int main()
 				initialBalance = std::stof(parameters[2]);
 			}
 			switch (std::stoi(parameters[1])) {
-				case 1:
+				case 1: // current account
 					if (checkForAccount(accountList, "Current")) {
-						
+						// sees if there is a current account, if so you cant make another
 						std::cout << "Current account already exists" << std::endl;
 						break;
 					}
 
 					if (initialBalance < 0) {
+						// checks if inital balance is greater than 0
 						std::cout << "Initial balance must be greater than 0" << std::endl;
 						break;
 					}
 					else {
+						// if conditions are met, make a new account and append it to the accountList vector
 						accountList.push_back(openAccount(1, initialBalance));
 						std::cout << "Current account opened with balance: " << initialBalance << std::endl;
 						break;
 					}
 					
-				case 2:
-					if (initialBalance < 0) {
+				case 2: // savings account
+					if (initialBalance < 0) { // cannot open account with < 0
 						std::cout << "Initial balance must be greater than 0" << std::endl;
 						break;
 					}
-					else {
+					else { // creates account and appends to list
 						accountList.push_back(openAccount(2, initialBalance));
 						std::cout << "Savings account opened with balance: " << initialBalance << std::endl;
 						break;
 					}
 					
-				case 3:
+				case 3: // isa account
 					if (checkForAccount(accountList, "ISA")) {
 						std::cout << "ISA account already exists" << std::endl;
 						break;
 					}
-					if (initialBalance < 1000) {
+					if (initialBalance < 1000) { // cannot open account with < 1000
 						std::cout << "ISA account must be opened with a minimum balance of 1000" << std::endl;
 						break;
 					}
-					else {
+					else { // creates account and appends to list
 						accountList.push_back(openAccount(3, initialBalance));
 						std::cout << "ISA account opened with balance: " << initialBalance << std::endl;
 						break;
@@ -178,6 +183,7 @@ int main()
 			// display an account according to an index (starting from 1)
 			// alternatively, display all accounts if no index is provided
 			if (parameters.size() == 1) {
+				// shows full account list if specific account isnt specified
 				std::cout << "\n Full Account List:\n" << std::endl;
 				for (int i = 0; i < accountList.size(); i++) {
 					std::cout << "Account " << i + 1 << ":" << std::endl;
