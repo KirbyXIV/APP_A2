@@ -192,9 +192,10 @@ int main()
 				}
 			}
 			else {
+				// shows specific account if specified
 				accountList[std::stoi(parameters[1]) - 1]->toString();
 				mostRecent = accountList[std::stoi(parameters[1]) - 1];
-
+				// shows transaction history for said account
 				std::vector<Transaction> history = mostRecent->history;
 				std::cout << "Transaction History: " << std::endl;
 				for (auto& transaction : history) {
@@ -207,17 +208,19 @@ int main()
 		{
 			// allow user to withdraw funds from an account
 			if (parameters.size() == 2) {
+				// withdraws from most recently viewed account
 				std::cout << "Withdrawing money from most recently view account" << std::endl;
-				if (mostRecent == nullptr) {
+				if (mostRecent == nullptr) { // checks if account has been viewed
+					// if not, let them know
 					std::cout << "No account has been viewed yet" << std::endl;
 				}
-				else {
+				else { // if it has, withdraw from it
 					mostRecent->withdraw("Withdraw", std::stof(parameters[1]));
 					mostRecent->toString();
 				}
 				
 			}
-			else if (parameters.size() == 3) {
+			else if (parameters.size() == 3) { // withdraws from specified account
 				accountList[std::stoi(parameters[1]) - 1]->withdraw("Withdraw", std::stof(parameters[2]));
 				accountList[std::stoi(parameters[1]) - 1]->toString();
 			}
@@ -226,17 +229,18 @@ int main()
 		else if (command.compare("deposit") == 0)
 		{
 			// allow user to deposit funds into an account
-			if (parameters.size() == 2) {
+			if (parameters.size() == 2) { // deposits into most recently viewed account
 				std::cout << "Depositing money into most recently view account" << std::endl;
-				if (mostRecent == nullptr) {
+				if (mostRecent == nullptr) { // checks if account has been viewed
+					// if not, let them know
 					std::cout << "No account has been viewed yet" << std::endl;
 				}
-				else if (accountList.size() == 1){
+				else if (accountList.size() == 1){ // if there is only one account, deposit into that
 					mostRecent->deposit("Deposit", std::stof(parameters[1]));
 					mostRecent->toString();
 				}
 			}
-			else if (parameters.size() == 3) {
+			else if (parameters.size() == 3) { // deposits into specified account
 				accountList[std::stoi(parameters[1]) - 1]->deposit("Deposit" , std::stof(parameters[2]));
 				accountList[std::stoi(parameters[1]) - 1]->toString();
 			}
@@ -245,18 +249,18 @@ int main()
 		{
 			// allow user to transfer funds between accounts
 			// i.e., a withdrawal followed by a deposit!
-			if (parameters.size() == 4) {
+			if (parameters.size() == 4) { // transfers from source to destination
 				const int sourceIndex = std::stoi(parameters[1]) - 1;
 				const int destinationIndex = std::stoi(parameters[2]) - 1;
 				const float amount = std::stof(parameters[3]);
-
+				// checks if source and destination are valid
 				if (sourceIndex >= 0 && sourceIndex <= accountList.size() && destinationIndex >= 0 && destinationIndex <= accountList.size()) {
-					accountList[sourceIndex]->withdraw("Transfer Out", amount);
-					accountList[destinationIndex]->deposit("Transfer in", amount);
+					accountList[sourceIndex]->withdraw("Transfer Out", amount); // withdraws from source
+					accountList[destinationIndex]->deposit("Transfer in", amount); // deposits into destination
 					accountList[sourceIndex]->toString();
 					accountList[destinationIndex]->toString();
 				}
-				else {
+				else { // if not, let them know
 					std::cout << "Invalid account index" << std::endl;
 				}
 			}
@@ -269,29 +273,30 @@ int main()
 
 			// interest equation =
 			// output = input(1 + (rate/number of times interest is applied per unit time))^(number of times interest is applied per unit time*time)
-			if (parameters.size() == 2 ) {
+			if (parameters.size() == 2 ) { // projects most recently viewed account
 				std::cout << "Projecting most recently viewed account " << parameters[1] << " years" <<std::endl;
-				if (mostRecent == nullptr) {
+				if (mostRecent == nullptr) { // checks if account has been viewed
+					// if not, let them know
 					std::cout << "No account has been viewed yet" << std::endl;
 				}
-				else {
+				else { // if it has, project the interest
 					tryComputeInterest(mostRecent, std::stoi(parameters[1]));
 				}
 			}
-			else if (parameters.size() == 3) {
+			else if (parameters.size() == 3) { // projects specified account
 				tryComputeInterest(accountList[std::stoi(parameters[1]) - 1], std::stoi(parameters[2]));
 			}
 		}
 		else if (command.compare("search") == 0)
-		{
+		{ // searches for a transaction
 			std::cout << "Searching for transaction" << std::endl;
-			if (parameters.size() == 2) {
+			if (parameters.size() == 2) { // searches for transaction in most recently viewed account
 				std::vector<Transaction> result = mostRecent->searchForTransaction(std::stof(parameters[1]));
 				std::cout << "Transactions found: " << std::endl;
-				if (result.size() == 0) {
+				if (result.size() == 0) { // if no transactions are found, let them know
 					std::cout << "No transactions found" << std::endl;
 				}
-				else {
+				else { // if transactions are found, display them
 					for (auto& transaction : result) {
 						transaction.toString();
 					}

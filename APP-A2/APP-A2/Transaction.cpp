@@ -24,5 +24,6 @@ std::string Transaction::getTimestamp() const
 
 void Transaction::toString()
 {
+	// Print the transaction details
 	std::cout << "\"" << description << "\" | £" <<  value << " | Time: " << timestamp << std::endl;
 }

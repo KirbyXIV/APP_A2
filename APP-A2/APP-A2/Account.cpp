@@ -6,6 +6,7 @@
 
 Account::Account(float openingBalance)
 {
+	// Set the opening balance
 	balance = openingBalance;
 }
 
@@ -26,6 +27,8 @@ void Account::withdraw(std::string message, float amount)
 
 void Account::newTransaction(std::string type, float amount)
 {
+	// Get the current time
+	// Add the transaction to the history
 	time_t now = time(0);
 	char* dt = ctime(&now);
 	history.emplace_back(type, amount, std::string(dt));
@@ -33,9 +36,11 @@ void Account::newTransaction(std::string type, float amount)
 }
 
 std::vector<Transaction> Account::searchForTransaction(float value) const {
+	// Search for a transaction with a specific value
 	std::vector<Transaction> result;
 	for (const auto& transaction : history) {
 		if (transaction.getValue() == value) {
+			// Add the transaction to the result if found
 			result.push_back(transaction);
 		}
 	}

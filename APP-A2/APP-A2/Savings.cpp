@@ -3,60 +3,60 @@
 #include <iostream>
 
 Savings::Savings(float openingBalance, bool isIsa) : Account(openingBalance) {
-	if (openingBalance >= 1000 && isIsa) {
+	if (openingBalance >= 1000 && isIsa) { // ISA account
 		isa = true;
 		balance = openingBalance;
-		interestRate = 1.15;
+		interestRate = 1.15; // 1.15% interest rate
 		Account::newTransaction("Opening Balance (ISA)", openingBalance);
 	}
-	else if (openingBalance >= 0 && !isIsa) {
+	else if (openingBalance >= 0 && !isIsa) { // Savings account
 		isa = false;
 		balance = openingBalance;
-		interestRate = 0.85;
+		interestRate = 0.85; // 0.85% interest rate
 		newTransaction("Opening Balance (Savings)", openingBalance);
 	}
-	else {
+	else { // Error
 		std::cout << "An error has occured. Opening balance must be greater than 1000 for an ISA account." << std::endl;
 	}
 }
 
 void Savings::deposit(std::string message, float amount) {
-	if (amount < 0) {
+	if (amount < 0) { // Error
 		std::cout << "Cannot deposit a negative amount" << std::endl;
 	}
-	else {
+	else { // Deposit
 		balance += amount;
-		if (isa) {
+		if (isa) { // ISA account
 			newTransaction(message + " (ISA)", amount);
 		}
-		else {
+		else { // Savings account
 			newTransaction(message + " (Savings)", amount);
 		}
 	}
 }
 
-void Savings::toString() {
-	if (isa) {
+void Savings::toString() { // Print the account balance
+	if (isa) { // ISA account
 		std::cout << "ISA Account Balance: " << balance << std::endl;
 	}
-	else {
+	else { // Savings account
 		std::cout << "Savings Account Balance: " << balance << std::endl;
 	}
 }
 
 void Savings::withdraw(std::string message, float amount) {
-	if (amount < 0) {
+	if (amount < 0) { // Error
 		std::cout << "Cannot withdraw a negative amount" << std::endl;
 	}
-	else if (balance - amount < 0) {
+	else if (balance - amount < 0) { // Error
 		std::cout << "Cannot withdraw more than the account balance" << std::endl;
 	}
-	else {
+	else { // Withdraw
 		balance -= amount;
-		if (isa) {
+		if (isa) { // ISA account
 			newTransaction(message + " (ISA)", -amount);
 		}
-		else {
+		else { // Savings account
 			newTransaction(message + " (Savings)", -amount);
 		}
 	}
@@ -72,6 +72,7 @@ std::string Savings::accountType() {
 }
 
 float Savings::computeInterest(int years) {
+	// Calculate the interest
 	float rate = interestRate / 100;
 
 	return balance * pow((1 + (rate / 12)), 12 * years);;
